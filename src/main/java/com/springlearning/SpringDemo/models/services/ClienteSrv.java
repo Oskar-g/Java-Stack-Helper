@@ -16,13 +16,13 @@ public class ClienteSrv implements IClienteSrv {
     @Override
     @Transactional(readOnly = true)
     public List<Cliente> findAll() {
-        return clienteDao.findAll();
+        return (List<Cliente>) clienteDao.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public Cliente findOne(long id) {
-        return clienteDao.findOne(id);
+        return clienteDao.findById(id).orElse(null);
     }
 
     @Override
@@ -34,6 +34,6 @@ public class ClienteSrv implements IClienteSrv {
     @Override
     @Transactional
     public void delete(long id) {
-        clienteDao.delete(id);
+        clienteDao.deleteById(id);
     }
 }

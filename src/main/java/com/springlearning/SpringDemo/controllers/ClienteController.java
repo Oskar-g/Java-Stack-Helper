@@ -1,13 +1,16 @@
 package com.springlearning.SpringDemo.controllers;
 
-import com.springlearning.SpringDemo.models.dao.IClienteDao;
 import com.springlearning.SpringDemo.models.entity.Cliente;
+import com.springlearning.SpringDemo.models.services.IClienteSrv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
@@ -18,13 +21,13 @@ import javax.validation.Valid;
 public class ClienteController {
 
     @Autowired
-    @Qualifier("clienteDaoJPA")
-    private IClienteDao clienteDao;
+    @Qualifier("clienteSrv")
+    private IClienteSrv clienteSrv;
 
     @RequestMapping("listar")
     public String listart(ModelMap model) {
         model.put("titulo", "Listado de clientes");
-        model.put("clientes", clienteDao.findAll());
+        model.put("clientes", clienteSrv.findAll());
         return "listar";
     }
 
@@ -45,7 +48,7 @@ public class ClienteController {
             return "redirect:listar";
         }
 
-        cliente = clienteDao.findOne(id);
+        cliente = clienteSrv.findOne(id);
         model.put("titulo", "Editar de cliente");
         model.put("cliente", cliente);
         return "form";
@@ -57,8 +60,9 @@ public class ClienteController {
         if (result.hasErrors())
             return "form";
 
-        clienteDao.save(cliente);
+        clienteSrv.save(cliente);
         status.setComplete();
+
         return "redirect:/clientes/listar";
     }
 
@@ -66,7 +70,7 @@ public class ClienteController {
     public String guardar(@PathVariable(value = "id") Long id) {
 
         if (id > 0)
-            clienteDao.delete(id);
+            clienteSrv.delete(id);
 
         return "redirect:/clientes/listar";
     }

@@ -1,10 +1,10 @@
-package com.springlearning.SpringDemo.models.dao;
+package com.springlearning.SpringDemo.models.services;
 
 import com.springlearning.SpringDemo.models.entity.Cliente;
 
 import java.util.List;
 
-public interface IClienteDao {
+public interface IClienteSrv {
     List<Cliente> findAll();
 
     Cliente findOne(long id);
@@ -12,5 +12,4 @@ public interface IClienteDao {
     void save(Cliente cliente);
 
     void delete(long id);
-
 }

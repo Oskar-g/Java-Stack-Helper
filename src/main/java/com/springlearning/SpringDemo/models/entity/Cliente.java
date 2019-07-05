@@ -21,8 +21,10 @@ public class Cliente implements Serializable {
 
     @NotEmpty
     private String nombre;
+
     @NotEmpty
     private String apellido;
+
     @NotEmpty
     @Email
     private String email;
